@@ -1,39 +1,60 @@
-# stand-sit-detection
-def get_landmarks_interst(detection_result):
+# Stand-Sit Detection Project
 
-  lm = keypoints.pose_landmarks
-  lmPose  = mp_pose.PoseLandmark
-  # Left shoulder.
-  l_shldr_x = int(lm.landmark[lmPose.LEFT_SHOULDER].x * w)
-  l_shldr_y = int(lm.landmark[lmPose.LEFT_SHOULDER].y * h)
-  
-  # Right shoulder.
-  r_shldr_x = int(lm.landmark[lmPose.RIGHT_SHOULDER].x * w)
-  r_shldr_y = int(lm.landmark[lmPose.RIGHT_SHOULDER].y * h)
-  
+This project utilizes the MediaPipe library to detect human poses in images and classifies them based on whether the person is sitting, standing, or if the lower half of the body is not visible (unknown).
 
-  
-  # Left hip.
-  l_hip_x = int(lm.landmark[lmPose.LEFT_HIP].x * w)
-  l_hip_y = int(lm.landmark[lmPose.LEFT_HIP].y * h)
+## Classification Criteria
 
-  # Right hip.
-  r_hip_x = int(lm.landmark[lmPose.RIGHT_HIP].x * w)
-  r_hip_y = int(lm.landmark[lmPose.RIGHT_HIP].y * h)
+The classification is based on the angles formed by the knees and hips. Specifically:
 
-  
-  # Left knee.
-  l_knee_x = int(lm.landmark[lmPose.LEFT_KNEE].x * w)
-  l_knee_y = int(lm.landmark[lmPose.LEFT_KNEE].y * h)
+- If all angles formed by the knees and hips are less than 120 degrees, the person is classified as **sitting**.
+- If any of the angles exceeds 120 degrees, the person is classified as **standing**.
+- If the lower half of the body is not visible, the person is classified as **unknown**.
 
-  # Right knee.
-  r_knee_x = int(lm.landmark[lmPose.RIGHT_KNEE].x * w)
-  r_knee_y = int(lm.landmark[lmPose.RIGHT_KNEE].y * h)
+## Table of Contents
 
-  # Left ankle.
-  l_ankle_x = int(lm.landmark[lmPose.LEFT_ANKLE].x * w)
-  l_ankle_y = int(lm.landmark[lmPose.LEFT_ANKLE].y * h)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Dependencies](#dependencies)
 
-  # Right ankle.
-  r_ankle_x = int(lm.landmark[lmPose.RIGHT_ANKLE].x * w)
-  r_ankle_y = int(lm.landmark[lmPose.RIGHT_ANKLE].y * h)
+## Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/Snimm/stand-sit-detection
+    cd stand-sit-detection
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Usage
+
+1. Run the main script:
+
+    ```bash
+    python main.py
+    ```
+
+2. Enter the file path of the image you want to classify.
+
+3. View the annotated images with detected poses and classifications.
+
+4. The annotated image is saved as `proc_{image_name}` in the `stand-sit-detection` folder.
+
+## Project Structure
+
+- `main.py`: Main script to run the pose detection and classification.
+- `draw.py`: Module for drawing annotations on images based on pose classifications.
+- `pos.py`: Module for pose-related functions (e.g., calculating angles, extracting landmarks).
+- `test/`: Directory containing files for unit tests.
+
+## Dependencies
+
+- `mediapipe`: MediaPipe library for pose detection and landmarks.
+- `numpy`: For numerical operations on landmarks.
+- `opencv-python`: OpenCV for image processing and visualization.

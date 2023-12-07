@@ -1,0 +1,27 @@
+import unittest
+import sys
+import os
+dirname = os.path.dirname(__file__)
+path_to_folder = dirname[:-5]
+sys.path.append(path_to_folder)
+
+from pos import find_angles, get_interest_landmarks, check_visibility, find_distance, calculate_angle, find_class, Point
+
+class TestYourFunctions(unittest.TestCase):
+    def setUp(self):
+        # Sample data for testing
+        self.point1 = Point(x=0, y=0, z=0, visibility=1.0)
+        self.point2 = Point(x=1, y=1, z=1, visibility=0.8)
+        self.point3 = Point(x=2, y=2, z=2, visibility=0.6)
+        self.landmark_list = [self.point1, self.point2, self.point3]
+
+    def test_find_distance(self):
+        self.assertAlmostEqual(find_distance(self.point1, self.point2), 1.732, places=2)
+
+    def test_calculate_angle(self):
+        angle = calculate_angle(self.point1, self.point2, self.point3)
+        self.assertAlmostEqual(angle, 180.0, places=2)
+
+
+if __name__ == '__main__':
+    unittest.main()
