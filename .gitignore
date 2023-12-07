@@ -1,6 +1,5 @@
 venv/
 test_resource/
 .vscode/
-pycache/
-test.py
+__pycache__/
 *.jpg
