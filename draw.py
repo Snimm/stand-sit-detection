@@ -4,7 +4,7 @@ from mediapipe.framework.formats import landmark_pb2
 from mediapipe.python import solutions
 import cv2
 import pprint
-
+import math
 
 def draw_landmarks_on_image(rgb_image, detection_result):
     
@@ -70,19 +70,26 @@ def draw_landmarks_on_image(rgb_image, detection_result):
 
 
 
-def draw_image(sittingness: float, image: cv2.Mat, sittingness_threshold: float, text_to_put:str) -> cv2.Mat:
-    Fontsize=5
+def draw_image(image: cv2.Mat, text_to_put:str) -> cv2.Mat:
+
+    FONT_SCALE = 2e-3  # Adjust for larger font size in all images
+    THICKNESS_SCALE = 1e-3  # Adjust for larger thickness in all images
+
+    height, width, _ = image.shape
+
+    fontsize = min(width, height) * FONT_SCALE
+    thickness = math.ceil(min(width, height) * THICKNESS_SCALE)
 
     # Determine jaw class based on the threshold
     
     # Create text to put on the image
-    text_location = (image.shape[1] -170*Fontsize,  40*Fontsize)
+    text_location = (int(width -170*fontsize),  int(40*fontsize))
 
     # Put text on the image
-    put_text(image, text_to_put, text_location, Fontsize)
+    put_text(image, text_to_put, text_location, fontsize, thickness)
 
     return image
 
-def put_text(image, text_to_put, text_location, size):
-    cv2.putText(image, text_to_put, text_location, cv2.FONT_HERSHEY_COMPLEX, size, (255, 255, 255), 4*size, cv2.LINE_AA)
-    cv2.putText(image, text_to_put, text_location, cv2.FONT_HERSHEY_COMPLEX, size, (0, 0, 0), size, cv2.LINE_AA)
+def put_text(image, text_to_put, text_location, size, thickness):
+    cv2.putText(image, text_to_put, text_location, cv2.FONT_HERSHEY_COMPLEX, size, (255, 255, 255), 4*thickness, cv2.LINE_AA)
+    cv2.putText(image, text_to_put, text_location, cv2.FONT_HERSHEY_COMPLEX, size, (0, 0, 0), thickness, cv2.LINE_AA)
