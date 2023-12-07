@@ -11,7 +11,7 @@ import math
 from draw import draw_landmarks_on_image
 from draw import draw_image
 import pprint
-from pos import get_interst_landmards 
+from pos import get_interst_landmards, check_visibility, find_class, find_angles, calculate_angle
 mp_pose = mp.solutions.pose
 
 
@@ -25,7 +25,7 @@ def cv2_imshow(cv2_image):
 
 
 
-image_path = "test_resource/download (2).jpeg"
+image_path = "test_resource/sport-ball-kind-274494.jpg"
 # img = cv2.imread(image_path)
 # cv2_imshow(img)
 
@@ -38,15 +38,23 @@ options = vision.PoseLandmarkerOptions(
     output_segmentation_masks=True)
 detector = vision.PoseLandmarker.create_from_options(options)
 
-# STEP 3: Load the input image.
 image = mp.Image.create_from_file(image_path)
 
-# STEP 4: Detect pose landmarks from the input image.
+
+
 detection_result = detector.detect(image)
+#pp.pprint(detection_result.pose_world_landmarks[0][0])
+landmark_dict = get_interst_landmards(detection_result.pose_world_landmarks[0])
+# pp.pprint(landmark_dict)
+
 
 # STEP 5: Process the detection result. In this case, visualize it.
 annotated_image = draw_landmarks_on_image(image.numpy_view(), detection_result)
-annotated_image= draw_image(0.5, annotated_image, 0.5)
+
+
+l_hip_angle, l_knee_angle, r_hip_angle, r_knee_angle = find_angles(landmark_dict)
+output_class = find_class(l_hip_angle, l_knee_angle, r_hip_angle, r_knee_angle, landmark_dict)
+annotated_image= draw_image(0.5, annotated_image, 0.5, output_class)
 cv2_imshow(cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR))
 
 #get landmarks of hips
@@ -55,7 +63,6 @@ lm = detection_result.pose_landmarks
 # Left shoulder.
 
 
-pp = pprint.PrettyPrinter(indent=4)
 person = 0
 landmark_point = 32
 

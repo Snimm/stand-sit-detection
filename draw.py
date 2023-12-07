@@ -70,14 +70,12 @@ def draw_landmarks_on_image(rgb_image, detection_result):
 
 
 
-def draw_image(sittingness: float, image: cv2.Mat, sittingness_threshold: float) -> cv2.Mat:
+def draw_image(sittingness: float, image: cv2.Mat, sittingness_threshold: float, text_to_put:str) -> cv2.Mat:
     Fontsize=5
 
     # Determine jaw class based on the threshold
-    class_pos = "Sitting" if sittingness > sittingness_threshold else "standing"
     
     # Create text to put on the image
-    text_to_put = f"{class_pos}"
     text_location = (image.shape[1] -170*Fontsize,  40*Fontsize)
 
     # Put text on the image
