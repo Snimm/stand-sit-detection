@@ -3,3 +3,4 @@ test_resource/
 .vscode/
 pycache/
 test.py
+*.jpg

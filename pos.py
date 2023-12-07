@@ -3,7 +3,7 @@ import numpy as np
 from dataclasses import dataclass
 
 # Configure logging
-logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s -  %(levelname)s -  %(message)s')
+logging.basicConfig(level=logging.WARNING, format=' %(asctime)s -  %(levelname)s -  %(message)s')
 
 # Define a dataclass for representing 3D points
 @dataclass
